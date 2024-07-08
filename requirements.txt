@@ -1,0 +1,12 @@
+Django>=5.0,<5.1
+Celery
+redis
+django-celery-beat 
+django-celery-results
+dj-database-url
+psycopg[binary]
+python-decouple
+django-timescaledb
+gunicorn
+kombu
+whitenoise
