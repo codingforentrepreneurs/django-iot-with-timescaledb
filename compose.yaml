@@ -2,10 +2,12 @@ services:
   timescaledb:
     # hub.docker.com
     image: timescale/timescaledb:latest-pg16
-    environment:
-      POSTGRES_USER: your_username
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: your_database
+    # environment:
+    #   POSTGRES_USER: your_username
+    #   POSTGRES_PASSWORD: your_password
+    #   POSTGRES_DB: your_database
+    env_file:
+      - .env.db
     ports:
       - "5555:5432" # localhost:5432
     volumes:

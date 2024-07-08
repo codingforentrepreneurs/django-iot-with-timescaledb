@@ -81,6 +81,16 @@ DATABASES = {
     }
 }
 
+DATABASE_URL=config("DATABASE_URL", cast=str, default="")
+if DATABASE_URL != "":
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600
+        )
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
