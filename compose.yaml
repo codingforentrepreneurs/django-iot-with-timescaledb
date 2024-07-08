@@ -1,4 +1,10 @@
 services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6555:6379"
+    volumes:
+      - redis_data:/data
   timescaledb:
     # hub.docker.com
     image: timescale/timescaledb:latest-pg16
@@ -15,4 +21,5 @@ services:
     restart: unless-stopped
 
 volumes:
+  redis_data:
   timescale_data:
