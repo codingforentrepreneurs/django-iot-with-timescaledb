@@ -1,11 +1,15 @@
 services:
-  redis:
+  redis-db:
+    networks:
+      - cfe
     image: redis:latest
     ports:
       - "6555:6379"
     volumes:
       - redis_data:/data
   timescaledb:
+    networks:
+      - cfe
     # hub.docker.com
     image: timescale/timescaledb:latest-pg16
     # environment:
@@ -19,7 +23,23 @@ services:
     volumes:
       - timescale_data:/var/lib/postgresql/data
     restart: unless-stopped
+  web:
+    networks:
+      - cfe
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ID=0
+      - PORT=8088
+    env_file:
+      - .env.web-container
+    ports:
+      - "8088:8088"
 
 volumes:
   redis_data:
   timescale_data:
+
+networks:
+  cfe:
