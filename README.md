@@ -137,3 +137,17 @@ After you push run:
 ```bash
 ansible-playbook playbooks/restart_services.yaml
 ```
+
+
+## 9. Refresh Services
+
+
+```bash
+ansible-playbook playbooks/connect_hosts.yaml
+
+
+ansible-playbook playbooks/deploy_django.yaml
+
+
+ansible-playbook playbooks/restart_services.yaml
+```
