@@ -28,6 +28,7 @@
     group: root
     mode: '0644'
   become: yes
+  # when: inventory_hostname in groups['nodes']
 
 - name: Reload systemd
   ansible.builtin.systemd:

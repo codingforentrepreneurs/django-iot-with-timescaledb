@@ -27,7 +27,7 @@
   ansible.builtin.git:
     repo: "{{ github_repo }}"
     version: main
-    dest: "/opt/app"
+    dest: "/opt/app" # /opt/app/src/
     force: yes
   become: yes
   become_user: "{{ ansible_user }}"
