@@ -77,3 +77,10 @@
     chdir: /opt/app/src
   become: yes
   become_user: "{{ ansible_user }}"
+
+- name: Run Django collectstatic
+  ansible.builtin.command:
+    cmd: /opt/venv/bin/python manage.py collectstatic --no-input
+    chdir: /opt/app/src
+  become: yes
+  become_user: "{{ ansible_user }}"
