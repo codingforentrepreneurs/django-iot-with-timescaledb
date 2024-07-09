@@ -10,3 +10,4 @@ django-timescaledb
 gunicorn
 kombu
 whitenoise
+django-ninja
