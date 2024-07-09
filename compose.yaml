@@ -29,6 +29,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./src
+          target: /code
+        - action: sync+restart
+          path: ./requirements.txt
+          target: /tmp/requirements.txt
     environment:
       - NODE_ID=0
       - PORT=8088
