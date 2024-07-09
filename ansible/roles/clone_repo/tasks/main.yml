@@ -77,6 +77,7 @@
     chdir: /opt/app/src
   become: yes
   become_user: "{{ ansible_user }}"
+  when: inventory_hostname in groups['main']
 
 - name: Run Django collectstatic
   ansible.builtin.command:
@@ -84,3 +85,4 @@
     chdir: /opt/app/src
   become: yes
   become_user: "{{ ansible_user }}"
+  when: inventory_hostname in groups['main']

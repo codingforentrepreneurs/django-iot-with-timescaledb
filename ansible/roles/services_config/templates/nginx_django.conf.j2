@@ -15,10 +15,6 @@ server {
     }
 
     location /static/ {
-        alias /opt/app/src/static/;
-    }
-
-    location /media/ {
-        alias /opt/app/src/media/;
+        alias /opt/app/src/staticfiles/;
     }
 }
