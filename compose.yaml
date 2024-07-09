@@ -55,21 +55,27 @@ services:
   node_1:
     <<: *django-base
     environment:
-      - NODE_ID=1
+      - NODE_ID=5
     command: |
-      celery -A cfehome worker -Q node-1 -l info
+      celery -A cfehome worker -Q node-5 -l info
   node_2:
     <<: *django-base
     environment:
-      - NODE_ID=2
+      - NODE_ID=6
     command: |
-      celery -A cfehome worker -Q node-2 -l info
+      celery -A cfehome worker -Q node-6 -l info
   node_3:
     <<: *django-base
     environment:
-      - NODE_ID=3
+      - NODE_ID=7
     command: |
-      celery -A cfehome worker -Q node-3 -l info
+      celery -A cfehome worker -Q node-7 -l info
+  node_8:
+    <<: *django-base
+    environment:
+      - NODE_ID=8
+    command: |
+      celery -A cfehome worker -Q node-8 -l info
 
 volumes:
   redis_data:
