@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+</head>
+<body>
+    
+
+    <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+        const ctx = document.getElementById('myChart');
+        fetch('/api/temps').then(res=>res.json()).then(x=>{
+            const labels = x.map(subData=>subData.time_group) // time_group
+            const datasetData = x.map(subData=>subData.avg_temp)
+
+            new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                label: 'Avg Temp',
+                data: datasetData,
+                borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+            });
+        })
+        
+      </script>
+
+
+</body>
+</html>
