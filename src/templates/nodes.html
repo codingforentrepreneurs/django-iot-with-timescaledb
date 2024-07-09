@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+</head>
+<body>
+    
+
+    <div>
+        <canvas id="myChart"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+        const ctx = document.getElementById('myChart');
+        fetch('/api/temps/node').then(res=>res.json()).then(data=>{
+            // const nodes =  [...new Set(data.map(d => d.node_id))].sort((a, b)=> a-b)
+            const nodes = [1, 2]
+            const timeLabels = [...new Set(data.map(d => new Date(d.time_group).toLocaleTimeString()))].sort((a, b) => new Date('1970/01/01 ' + a) - new Date('1970/01/01 ' + b));
+
+            let datasets = nodes.map(nodeId => {
+                const nodeData = data.filter(d => d.node_id === nodeId);
+                return {
+                    label: `Node ${nodeId}`,
+                    data: timeLabels.map(time => {
+                        const point = nodeData.find(d => new Date(d.time_group).toLocaleTimeString() === time);
+                        return point ? point.avg_temp : null;
+                    }),
+                    borderWidth: 1,
+                    fill: false
+                };
+            });
+
+            new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: datasets
+            },
+            options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'category',
+                    title: {
+                        display: true,
+                        text: 'Time'
+                    }
+                },
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Average Temperature'
+                    }
+                }
+            }
+        }
+            });
+        })
+        
+      </script>
+
+
+</body>
+</html>
