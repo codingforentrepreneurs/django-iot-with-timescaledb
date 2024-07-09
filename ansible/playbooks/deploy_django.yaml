@@ -7,6 +7,13 @@
   roles:
     - clone_repo
     - services_config
+  tasks:
+    - name: Install Redis CLI
+      apt:
+        name: redis-tools
+        state: present
+        update_cache: yes
+      become: yes
 
 - name: Deploy Redis
   hosts: main

@@ -1,0 +1,46 @@
+---
+- name: Get all hosts' IP addresses
+  set_fact:
+    all_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
+  run_once: true
+
+- name: Create a list of hostname to IP mappings
+  set_fact:
+    host_mappings: "{{ host_mappings | default([]) + [{'hostname': item, 'ip': hostvars[item]['ansible_default_ipv4']['address']}] }}"
+  loop: "{{ groups['all'] }}"
+  run_once: true
+
+- name: Add hostname entries to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ item.ip }} {{ item.hostname }} {{ item.hostname.split('.')[0] }}"
+    regexp: ".*{{ item.hostname }}$"
+    state: present
+  loop: "{{ host_mappings }}"
+  when: item.hostname != inventory_hostname
+
+- name: Ensure avahi-daemon is installed
+  apt:
+    name: avahi-daemon
+    state: present
+    update_cache: yes
+
+- name: Ensure avahi-daemon is running and enabled
+  systemd:
+    name: avahi-daemon
+    state: started
+    enabled: yes
+
+- name: Set hostname
+  hostname:
+    name: "{{ inventory_hostname.split('.')[0] }}"
+
+- name: Update /etc/hostname
+  copy:
+    content: "{{ inventory_hostname.split('.')[0] }}"
+    dest: /etc/hostname
+
+- name: Restart avahi-daemon
+  systemd:
+    name: avahi-daemon
+    state: restarted

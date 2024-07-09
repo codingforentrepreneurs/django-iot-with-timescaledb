@@ -1,0 +1,6 @@
+---
+- name: Connect Pi Hosts
+  hosts: all
+  become: yes
+  roles:
+    - connect_hosts

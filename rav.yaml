@@ -5,3 +5,5 @@ scripts:
     ansible-vault decrypt .env.prod
   ansible: |
     cd ansible && ansible-playbook main.yaml
+  connect-ansible-hosts: |
+    cd ansible && ansible-playbook playbooks/connect_hosts.yaml
