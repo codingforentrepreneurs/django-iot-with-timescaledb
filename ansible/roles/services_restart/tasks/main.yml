@@ -1,0 +1,36 @@
+---
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  become: yes
+
+- name: Restart Gunicorn
+  ansible.builtin.systemd:
+    name: gunicorn
+    enabled: yes
+    state: restarted
+  become: yes
+  when: inventory_hostname in groups['main']
+
+- name: Restart Nginx
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: yes
+    state: restarted
+  become: yes
+  when: inventory_hostname in groups['main']
+
+- name: Restart Celery Beat
+  ansible.builtin.systemd:
+    name: celery-beat
+    enabled: yes
+    state: restarted
+  become: yes
+  when: inventory_hostname in groups['main']
+
+- name: Restart Celery Worker
+  ansible.builtin.systemd:
+    name: celery-worker
+    enabled: yes
+    state: restarted
+  become: yes

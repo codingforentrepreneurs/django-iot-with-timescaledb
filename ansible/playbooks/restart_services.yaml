@@ -1,0 +1,6 @@
+---
+- name: Restart all services
+  hosts: all
+  become: yes
+  roles:
+    - services_restart

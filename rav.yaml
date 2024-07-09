@@ -7,3 +7,5 @@ scripts:
     cd ansible && ansible-playbook main.yaml
   connect-ansible-hosts: |
     cd ansible && ansible-playbook playbooks/connect_hosts.yaml
+  restart-pi-services: |
+    cd ansible && ansible-playbook playbooks/restart_services.yaml

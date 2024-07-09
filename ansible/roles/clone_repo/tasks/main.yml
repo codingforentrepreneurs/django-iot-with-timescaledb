@@ -43,6 +43,13 @@
     decrypt: yes
   become: yes
 
+- name: Set NODE_ID in .env file
+  ansible.builtin.lineinfile:
+    path: /opt/app/.env
+    regexp: '^NODE_ID='
+    line: 'NODE_ID={{ node_id | default(0, true) }}'
+  become: yes
+
 - name: Debug git clone result
   ansible.builtin.debug:
     var: git_clone_result

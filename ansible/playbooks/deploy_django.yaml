@@ -4,6 +4,7 @@
   vars:
     celery_user: "celery"
     celery_group: "celery"
+    github_repo: https://github.com/codingforentrepreneurs/django-iot-with-timescaledb
   roles:
     - clone_repo
     - services_config
