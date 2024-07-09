@@ -86,7 +86,7 @@ CELERY_BROKER_REDIS_URL="redis://localhost:6555/0"
 ### 5. Encrypt `.env.prod`
 Next, run:
 ```bash
-ansible-valut encrypt .env.prod
+ansible-vault encrypt .env.prod
 ```
 Create a password you will remember. To decrypt, you can run `ansible-vault decrypt .env.prod`.
 
