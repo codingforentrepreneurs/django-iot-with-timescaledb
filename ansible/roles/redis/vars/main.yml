@@ -1,0 +1,4 @@
+---
+# vars file for redis
+redis_max_memory: "256mb"
+redis_maxmemory_policy: "allkeys-lru"

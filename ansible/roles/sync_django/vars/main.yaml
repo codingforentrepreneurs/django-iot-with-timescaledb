@@ -1,0 +1,3 @@
+---
+celery_user: "celery"
+celery_group: "celery"

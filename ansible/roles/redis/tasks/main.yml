@@ -1,0 +1,25 @@
+---
+# tasks file for redis
+- name: Install Redis
+  apt:
+    name: redis-server
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Configure Redis
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis/redis.conf
+    owner: redis
+    group: redis
+    mode: '0644'
+  become: yes
+  notify: Restart Redis
+
+- name: Ensure Redis is running and enabled
+  systemd:
+    name: redis-server
+    state: started
+    enabled: yes
+  become: yes

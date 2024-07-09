@@ -1,0 +1,24 @@
+upstream django {
+    server 127.0.0.1:8080;
+}
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name {{ inventory_hostname }};
+
+    location / {
+        proxy_pass http://django;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_redirect off;
+    }
+
+    location /static/ {
+        alias /opt/app/src/static/;
+    }
+
+    location /media/ {
+        alias /opt/app/src/media/;
+    }
+}

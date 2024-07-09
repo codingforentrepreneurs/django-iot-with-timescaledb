@@ -1,0 +1,14 @@
+---
+- name: Deploy Django project
+  hosts: all
+  vars:
+    celery_user: "celery"
+    celery_group: "celery"
+  roles:
+    - clone_repo
+    - services_config
+
+- name: Deploy Redis
+  hosts: main
+  roles:
+    - redis

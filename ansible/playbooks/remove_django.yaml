@@ -1,0 +1,8 @@
+---
+- name: Deploy Django project
+  hosts: all
+  vars:
+    celery_user: "celery"
+    celery_group: "celery"
+  roles:
+    - unsync_django

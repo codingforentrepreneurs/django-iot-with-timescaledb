@@ -1,0 +1,13 @@
+[Unit]
+Description=Celery Worker Service
+After=network.target
+
+[Service]
+User={{ ansible_user }}
+Group={{ ansible_user }}
+WorkingDirectory=/opt/app/src
+ExecStart=/opt/venv/bin/celery -A cfehome worker -Q node-{{ node_id }} -l info
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

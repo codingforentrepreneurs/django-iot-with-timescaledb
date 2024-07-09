@@ -1,0 +1,13 @@
+[Unit]
+Description=Celery Beat Service
+After=network.target
+
+[Service]
+User={{ ansible_user }}
+Group={{ ansible_user }}
+WorkingDirectory=/opt/app/src
+ExecStart=/opt/venv/bin/celery -A cfehome beat -l info
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn daemon for Django application
+After=network.target
+
+[Service]
+User={{ ansible_user }}
+Group={{ ansible_user }}
+WorkingDirectory=/opt/app/src
+ExecStart=/opt/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:8080 cfehome.wsgi:application
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

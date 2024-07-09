@@ -1,0 +1,7 @@
+scripts:
+  encrypt_prod_env: |
+    ansible-vault encrypt .env.prod
+  decrypt_prod_env: |
+    ansible-vault decrypt .env.prod
+  ansible: |
+    cd ansible && ansible-playbook main.yaml

@@ -1,0 +1,72 @@
+---
+- name: Ensure os deps
+  apt:
+    name: 
+      - libpq-dev # for postgres
+      - git
+      - python3-venv
+      - python3-pip
+    update_cache: yes
+    state: present
+  become: yes
+
+- name: Ensure /opt/app directory exists
+  ansible.builtin.file:
+    path: "/opt/app"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  become: yes
+
+- name: Debug playbook directory
+  ansible.builtin.debug:
+    msg: "Playbook directory is: {{ playbook_dir }}"
+
+- name: Clone public repository
+  ansible.builtin.git:
+    repo: "{{ github_repo }}"
+    version: main
+    dest: "/opt/app"
+    force: yes
+  become: yes
+  become_user: "{{ ansible_user }}"
+  register: git_clone_result
+
+- name: Copy encrypted .env file
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../../.env.prod"
+    dest: /opt/app/.env
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+    decrypt: yes
+  become: yes
+
+- name: Debug git clone result
+  ansible.builtin.debug:
+    var: git_clone_result
+  when: git_clone_result is failed
+
+- name: Ensure /opt/venv directory exists
+  ansible.builtin.file:
+    path: "/opt/venv"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+  become: yes
+
+- name: Install project requirements
+  pip:
+    requirements: "/opt/app/requirements.txt"
+    virtualenv: "/opt/venv"
+    virtualenv_command: python3 -m venv
+  become: yes
+
+- name: Run Django migrations
+  ansible.builtin.command:
+    cmd: /opt/venv/bin/python manage.py migrate
+    chdir: /opt/app/src
+  become: yes
+  become_user: "{{ ansible_user }}"

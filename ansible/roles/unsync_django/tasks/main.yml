@@ -1,0 +1,26 @@
+---
+# tasks file for unsync_django
+- name: Ensure os deps removed
+  apt:
+    name: 
+      - libpq-dev
+      - rsync
+    update_cache: yes
+    state: absent
+  become: yes
+
+- name: Remove /opt/app directory
+  ansible.builtin.file:
+    path: "/opt/app"
+    state: absent
+  become: yes
+
+- name: Remove /opt/venv directory
+  ansible.builtin.file:
+    path: "/opt/venv"
+    state: absent
+  become: yes
+
+- name: Debug removal
+  ansible.builtin.debug:
+    msg: "Removed /opt/app and /opt/venv directories"
